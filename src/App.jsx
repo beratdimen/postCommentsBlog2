@@ -73,7 +73,10 @@ function App() {
 
   const customFormatDistanceToNow = (date) => {
     const distance = formatDistanceToNow(date, { addSuffix: true, locale: tr });
-    return distance.replace("yaklaşık ", "");
+    return distance
+      .replace("yaklaşık ", "")
+      .replace("gün", "day")
+      .replace("önce", "ago");
   };
 
   const firstWordTitle = (string) => {
@@ -251,7 +254,7 @@ function App() {
               )
             }
           >
-            geri
+            <img src="./img/back.svg" alt="" />
           </button>
         </div>
 
@@ -294,20 +297,28 @@ function App() {
             >
               <img src="./img/like.svg" alt="" /> {posts.likes}
             </button>
-            <button onClick={() => handleShowCommentForm(comment.id)}>
+            <button onClick={() => handleShowCommentForm(posts.id)}>
               <img src="./img/comment.svg" alt="" />
             </button>
           </div>
 
           {showCommentForm === posts.id && (
-            <form
-              ref={formRef}
-              onSubmit={(e) => handleAddNewCommentForm(e, posts.id)}
-            >
-              <textarea name="content" placeholder="Yorumunuz"></textarea>
-              <button>Yorumu Gönder</button>
-            </form>
-          )}
+                <div className="formComment">
+                  <form
+                    ref={formRef}
+                    onSubmit={(e) => handleAddNewCommentForm(e, posts.id)}
+                  >
+                    <textarea
+                      name="content"
+                      placeholder="Enter Your Comment"
+                      rows={4}
+                    ></textarea>
+                    <button>
+                      Save <img src="./img/ok.svg" alt="" />
+                    </button>
+                  </form>
+                </div>
+              )}
         </div>
       </div>
     );
