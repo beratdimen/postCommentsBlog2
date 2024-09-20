@@ -10,8 +10,15 @@ function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [showCommentForm, setShowCommentForm] = useState(null);
+  const [dark, setDark] = useState(
+    () => localStorage.getItem("dark") === "true"
+  );
   const dialogRef = useRef(false);
   const formRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem("dark", dark);
+  }, [dark]);
 
   useEffect(() => {
     async function getData() {
@@ -81,8 +88,7 @@ function App() {
   };
 
   const handleShowCommentForm = (postId) => {
-    setShowCommentForm((prev) => (prev === postId ? null : postId));
-    console.log("Çalıştı", postId);
+    setShowCommentForm(postId);
   };
 
   const handleAddNewCommentForm = async (e, postId) => {
@@ -177,9 +183,17 @@ function App() {
     console.log(postId);
     console.log(posts);
     setComponent(
-      <div className="detailContainer">
+      <div className={`detailContainer ${dark ? "detailContainerDark" : ""}`}>
         <div className="header">
           <h1>Postlar</h1>
+          <div className="toogle">
+            <img src="./img/light.svg" alt="Light Mode" />
+            <label className="switch">
+              <input type="checkbox" checked={dark} onChange={toggleDarkMode} />
+              <span className="slider round"></span>
+            </label>
+            <img src="./img/dark.svg" alt="Dark Mode" />
+          </div>
           <button
             onClick={() =>
               setComponent(
@@ -258,22 +272,32 @@ function App() {
           <p>{firstWord(posts.content)}</p>
 
           {posts.comments.map((comment, i) => (
-            <ul key={i}>
-              <li>
-                {comment.content}
-              </li>
-              <button
-                onClick={() => {
-                  handleLikeCommentBtn(comment.id);
-                }}
-              >
-                <img src="./img/like.svg" alt="" /> {comment.likes}
-              </button>
-              <button onClick={() => handleShowCommentForm(comment.id)}>
-                <img src="./img/comment.svg" alt="" />
-              </button>
+            <ul className="comments" key={i}>
+              <li>{comment.content}</li>
+              <div className="btn">
+                <button
+                  onClick={() => {
+                    handleLikeCommentBtn(comment.id);
+                  }}
+                >
+                  <img src="./img/like.svg" alt="" /> {comment.likes}
+                </button>
+              </div>
             </ul>
           ))}
+
+          <div className="postDetailBtn">
+            <button
+              onClick={() => {
+                handleLikePostBtn(posts.id);
+              }}
+            >
+              <img src="./img/like.svg" alt="" /> {posts.likes}
+            </button>
+            <button onClick={() => handleShowCommentForm(comment.id)}>
+              <img src="./img/comment.svg" alt="" />
+            </button>
+          </div>
 
           {showCommentForm === posts.id && (
             <form
@@ -289,17 +313,28 @@ function App() {
     );
   };
 
+  const toggleDarkMode = () => {
+    setDark((prevMode) => !prevMode);
+  };
+
   useEffect(() => {
     setComponent(
       <>
         <div className="header">
           <h1>Postlar</h1>
-
+          <div className="toogle">
+            <img src="./img/light.svg" alt="Light Mode" />
+            <label className="switch">
+              <input type="checkbox" checked={dark} onChange={toggleDarkMode} />
+              <span className="slider round"></span>
+            </label>
+            <img src="./img/dark.svg" alt="Dark Mode" />
+          </div>
           <button onClick={openModal}>
             Add Post <img src="./img/add-circle.svg" alt="" />
           </button>
         </div>
-        <div className="cardBox">
+        <div className={`cardBox ${dark ? "cardBoxDark" : ""}`}>
           {data.map((x, i) => (
             <div className="card" key={i}>
               <div className="cardHeader">
@@ -333,26 +368,31 @@ function App() {
                 </button>
               </div>
               {showCommentForm === x.id && (
-                <form
-                  ref={formRef}
-                  onSubmit={(e) => handleAddNewCommentForm(e, x.id)}
-                >
-                  <textarea
-                    name="content"
-                    placeholder="Enter Your Comment"
-                  ></textarea>
-                  <button>Yorumu Gönder</button>
-                </form>
+                <div className="formComment">
+                  <form
+                    ref={formRef}
+                    onSubmit={(e) => handleAddNewCommentForm(e, x.id)}
+                  >
+                    <textarea
+                      name="content"
+                      placeholder="Enter Your Comment"
+                      rows={4}
+                    ></textarea>
+                    <button>
+                      Save <img src="./img/ok.svg" alt="" />
+                    </button>
+                  </form>
+                </div>
               )}
             </div>
           ))}
         </div>
       </>
     );
-  }, [data]);
+  }, [data, showCommentForm]);
 
   return (
-    <div className="container">
+    <div className={`container ${dark ? "dark" : ""}`}>
       {component}
 
       <div className="dialogContainer">

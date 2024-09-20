@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-inline: 24px;
+
   button {
     display: flex;
     align-items: center;
@@ -9,6 +11,36 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
+
+.container.dark {
+  background-color: #140f0f;
+  .header {
+    h1 {
+      color: white;
+    }
+    button {
+      background-color: white;
+      border-radius: 8px;
+      padding: 8px;
+    }
+  }
+}
+
+.cardBox.cardBoxDark {
+  color: white;
+  .card {
+    background-color: #a1a5aa;
+  }
+}
+
+.detailContainerDark {
+  color: white;
+  .card {
+    background-color: #a1a5aa;
   }
 }
 
@@ -16,11 +48,16 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+  padding-inline: 24px;
 }
 
 .card {
   border-bottom: 1px solid black;
   padding: 16px;
+  border-radius: 16px 16px 0 0;
+  background-color: #f6f7fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.06);
+
   img {
     width: 36px;
   }
@@ -35,11 +72,69 @@
       align-items: center;
     }
   }
+  .comments {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    list-style: none;
+    padding: 16px;
+    background-color: #dfdddd;
+    border-radius: 16px;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .postDetailBtn {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+
+    button {
+      border: none;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  .formComment {
+    margin-top: 16px;
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      textarea {
+        padding: 8px;
+        border: none;
+        background-color: #eff1fa;
+      }
+      button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        img {
+          width: 24px;
+        }
+      }
+    }
+  }
 }
 
 .btn {
   display: flex;
   gap: 16px;
+
   button {
     display: flex;
     align-items: center;
@@ -47,6 +142,8 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
   }
 }
 
@@ -68,6 +165,7 @@ dialog {
       gap: 16px;
       cursor: pointer;
       font-size: 16px;
+
       padding: 8px;
       border-radius: 16px;
       background-color: #eff1fa;
@@ -108,6 +206,8 @@ dialog {
         gap: 16px;
         cursor: pointer;
         font-size: 16px;
+        font-weight: 600;
+
         padding: 8px;
         border-radius: 16px;
         background-color: #eff1fa;
