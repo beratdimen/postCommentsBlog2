@@ -10,14 +10,12 @@ function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [showCommentForm, setShowCommentForm] = useState(null);
-  const [dark, setDark] = useState(
-    () => localStorage.getItem("dark") === "true"
-  );
+  const [dark, setDark] = useState(() => localStorage.dark === "true");
   const dialogRef = useRef(false);
   const formRef = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem("dark", dark);
+    localStorage.dark = dark;
   }, [dark]);
 
   useEffect(() => {
@@ -303,22 +301,22 @@ function App() {
           </div>
 
           {showCommentForm === posts.id && (
-                <div className="formComment">
-                  <form
-                    ref={formRef}
-                    onSubmit={(e) => handleAddNewCommentForm(e, posts.id)}
-                  >
-                    <textarea
-                      name="content"
-                      placeholder="Enter Your Comment"
-                      rows={4}
-                    ></textarea>
-                    <button>
-                      Save <img src="./img/ok.svg" alt="" />
-                    </button>
-                  </form>
-                </div>
-              )}
+            <div className="formComment">
+              <form
+                ref={formRef}
+                onSubmit={(e) => handleAddNewCommentForm(e, posts.id)}
+              >
+                <textarea
+                  name="content"
+                  placeholder="Enter Your Comment"
+                  rows={4}
+                ></textarea>
+                <button>
+                  Save <img src="./img/ok.svg" alt="" />
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     );
